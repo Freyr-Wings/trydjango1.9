@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="col-sm-8 col-sm-offset-2">
+<h1>{{ title }}</h1>
+<form method='GET' action=''>
+    <input type='text' name='q' placeholder="search" value="{{ request.GET.q }}"/>
+    <input type='submit' value='search'/>
+</form>
+{% for obj in object_list %}
+
+<!-- this can show the url of each obj
+ -->
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="thumbnail">
+    {% if obj.image %}
+    <img src='{{ obj.image.url }}' class="img-responsive"/>
+<!--     ??????????what can the class do????????
+ -->    {% endif %}
+<!--       <img src="..." alt="..."> -->
+      <div class="caption">
+        <h3><a href='{{ obj.get_absolute_url }}'>
+	{{ obj.title }}
+</a><small>{{ obj.timestamp|timesince }} ago</small></h3>
+        <p>{{ obj.content|linebreaks|truncatechars:30 }}<br/>
+        {{ obj.updated }}<br/>
+{{ obj.id }}<br/>
+{{ obj.pk }}<br/></p>
+        <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+      </div>
+    </div>
+
+  </div>
+  <hr/>
+<!-- {% cycle "" "<div class='col-sm-12'><hr/><div></div><div class='row'>" %} -->
+<!-- circulate once in two times-->
+</div>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if object_list.has_previous %}
+            <a href="?{{page_name_change_yourself}}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+        {% if object_list.has_next %}
+            <a href="?{{page_name_change_yourself}}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+        {% endif %}
+    </span>
+    <!-- context in views.py that stands for queryset is object_list, so we use object_list here-->
+</div>
+</div>
+{% endblock content %}

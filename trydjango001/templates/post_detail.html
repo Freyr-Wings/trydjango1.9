@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
+
+<style>
+	{% block style %}
+	h1{
+/*		color:#7A88CD;*/
+	}
+	{% endblock style %}
+</style>
+
+{% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+{% if instance.image %}
+<img src='{{ instance.image.url }}' class="img-responsive"/>
+{% endif %}
+<h1>
+	{{title}}
+	<small>
+		{{ instance.timestamp }}<br/>
+	</small>
+</h1>
+{{ instance.content|linebreaks }}<br/>
+<!-- linebreaks can help you to have the space shown -->
+{{ instance.updated }}<br/>
+{{ instance.id }}<br/>
+{{ instance.pk }}<br/>
+<div class="messages"></div>
+</div>
+{% endblock content %}
